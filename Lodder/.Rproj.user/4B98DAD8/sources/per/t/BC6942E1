@@ -1,0 +1,28 @@
+{
+    "id": "BC6942E1",
+    "path": "~/Dropbox/Personal computer/Independent studies/2021/Sensitivity analysis for p-hacking (SAPH)/Linked to OSF (SAPH)/Applied example/Lodder/Code/3_analyze_lodder_local.R",
+    "project_path": "Code/3_analyze_lodder_local.R",
+    "type": "r_source",
+    "hash": "3246239595",
+    "contents": "",
+    "dirty": false,
+    "created": 1648816616107.0,
+    "source_on_save": false,
+    "relative_order": 8,
+    "properties": {
+        "cursorPosition": "19,23",
+        "scrollLine": "0",
+        "docOutlineVisible": "1",
+        "Source": "Source",
+        "docOutlineSize": "217",
+        "rmdVisualCollapsedChunks": ""
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1684190007,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1684190007479,
+    "read_only": false,
+    "read_only_alternatives": []
+}
