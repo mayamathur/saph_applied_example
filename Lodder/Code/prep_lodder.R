@@ -1,8 +1,13 @@
 
 
-# PRELIMINARIES ---------------------------------------------
+# PRELIMINARIES ---------------------------------------------------------------
 
 # ~ Load Data and Packages -----------------------------------------------
+
+# This script uses renv to preserve the R environment specs (e.g., package versions.)
+library(renv)
+# run this if you want to reproduce results using the R environment we had:
+# renv::restore()
 
 toLoad = c("crayon",
            "dplyr",
@@ -36,15 +41,24 @@ lapply( toLoad,
         character.only = TRUE)
 
 
-# helper fns
-general.code.dir = "~/Dropbox/Personal computer/Independent studies/2021/Sensitivity analysis for p-hacking (SAPH)/Linked to OSF (SAPH)/Code (git)/Sherlock code"
+# run this only if you want to update the R environment specs
+# renv::snapshot()
 
-setwd(general.code.dir)
-source("helper_SAPH.R")
+# set working directories
+code.dir = here("Code")
+raw.data.dir = here("Data and materials/Dataset from their repo") 
+prepped.data.dir = here("Data and materials/Prepped data") 
+results.dir = here("Results from R") 
+
+
+# # helper fns
+# general.code.dir = "~/Dropbox/Personal computer/Independent studies/2021/Sensitivity analysis for p-hacking (SAPH)/Linked to OSF (SAPH)/Code (git)/Sherlock code"
+# 
+# setwd(general.code.dir)
+# source("helper_SAPH.R")
 
 
 # dataset
-raw.data.dir = here("Dataset from their repo")
 setwd(raw.data.dir)
 # codebook: second sheet of xlsx file
 # read in per authors' analysis script b/c format is weird:
@@ -59,8 +73,8 @@ setwd(raw.data.dir)
 fwrite(dp, "lodder_raw.csv")
 
 # from their analysis script:
-# Only select studies from dataset that meet inclusion criteria
-#d<-subset(d,d$Included.==1)
+  # Only select studies from dataset that meet inclusion criteria
+  #d<-subset(d,d$Included.==1)
 expect_equal( all( as.numeric(dp$Included.) == 1 ), TRUE ) 
 
 
@@ -84,20 +98,20 @@ fwrite(dp, "lodder_raw_uncorrected.csv")
 #  (uncorrected) dataset and then running the same code on their
 #  new dataset, since they didn't report stats for the corrected dataset. 
 
-# ~ Appendix A: including all interaction rows -----------------
+# ~ Their Appendix A: including all interaction rows -----------------
 
 expect_equal( nrow(dp.old), 289 )
 expect_equal( sum(dp.old$Preregistered == 1), 51 )
 
 
-# ~ Fig 1 (main analysis): including only 1 interaction row per study -----------------
+# ~ Their Fig 1 (main analysis): including only 1 interaction row per study -----------------
 # this is the main analysis
 # from their R script (section "all studies combined"):
-# # Subset of studies based on interaction effects
-# metdat.intno<-subset(metdat,metdat$Interaction.==0) # Create subset of studies without interaction effects
-# metdat.intyes<-subset(metdat,metdat$Interaction.==1) # Create subset of studies with interaction effects
-# metdat.inthigh<-subset(metdat.intyes,metdat.intyes$Interaction.Identification..1.Largest.predicted.effect.==1) # Create subset of studies with largest predicted interaction effect                
-# metdat.high<-rbind(metdat.inthigh,metdat.intno) # Combine studies with largest predicted interaction effect with studies without interaction effects
+    # # Subset of studies based on interaction effects
+    # metdat.intno<-subset(metdat,metdat$Interaction.==0) # Create subset of studies without interaction effects
+    # metdat.intyes<-subset(metdat,metdat$Interaction.==1) # Create subset of studies with interaction effects
+    # metdat.inthigh<-subset(metdat.intyes,metdat.intyes$Interaction.Identification..1.Largest.predicted.effect.==1) # Create subset of studies with largest predicted interaction effect                
+    # metdat.high<-rbind(metdat.inthigh,metdat.intno) # Combine studies with largest predicted interaction effect with studies without interaction effects
 
 dp.old = dp.old %>% filter( Interaction. == 0 |
                        (Interaction. == 1 &
@@ -112,9 +126,9 @@ expect_equal( sum(dp.old$Preregistered == 1), 47 )
 # PREP DATASET ------------------------------
 
 # their code:
-# Add standard error and p-value of Hedges' g
-# metdat<-cbind(metdat,gse=sqrt(metdat$var.of.g))
-# metdat<-cbind(metdat,gp=round(1-pnorm(metdat$g/metdat$gse),4))
+  # Add standard error and p-value of Hedges' g
+  # metdat<-cbind(metdat,gse=sqrt(metdat$var.of.g))
+  # metdat<-cbind(metdat,gp=round(1-pnorm(metdat$g/metdat$gse),4))
 
 dp$yi = dp$g
 dp$vi = dp$var.of.g
@@ -145,8 +159,8 @@ dp2 = dp2 %>% filter( Interaction. == 0 |
 
 
 
-setwd( here("Prepped data") )
-# we'll use this larger dataset for our own analyses
+setwd(prepped.data.dir)
+# we'll use this dataset for our own analyses
 fwrite(dp, "lodder_prepped.csv")
 
 # but also save the Figure 1-equivalent dataset:

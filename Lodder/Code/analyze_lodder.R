@@ -1,12 +1,6 @@
 
 # PRELIMINARIES ---------------------------------------------
 
-
-# you just saved results from 2_analyze_lodder_sherlock (but should get integrated into this file)
-# next clean up this file and have it write the etahats, taus, etc.
-# YOU GOT THIS!
-
-
 toLoad = c("crayon", "dplyr", "foreach", "doParallel", "boot", "metafor", 
             "robumeta", "data.table", "purrr", "metRology", "fansi", "MetaUtility", 
             "ICC", "cfdecomp", "tidyr", "truncdist", "tibble", "tmvtnorm", 
