@@ -1,30 +1,74 @@
 
 # PRELIMINARIES ---------------------------------------------
 
-toLoad = c("crayon", "dplyr", "foreach", "doParallel", "boot", "metafor", 
-            "robumeta", "data.table", "purrr", "metRology", "fansi", "MetaUtility", 
-            "ICC", "cfdecomp", "tidyr", "truncdist", "tibble", "tmvtnorm", 
-            "testthat", "truncreg", "truncnorm", "rstan", "optimx", "weightr", 
-            "here", "RColorBrewer", "phacking")
+# This script uses renv to preserve the R environment specs (e.g., package versions.)
+library(renv)
+# run this if you want to reproduce results using the R environment we had:
+# renv::restore()
+
+
+toLoad = c("crayon",
+           "dplyr",
+           "foreach",
+           "doParallel",
+           "boot",
+           "metafor", 
+           "robumeta",
+           "data.table",
+           "purrr",
+           "metRology",
+           "fansi",
+           "MetaUtility", 
+           "ICC",
+           "cfdecomp",
+           "tidyr",
+           "truncdist",
+           "tibble",
+           "tmvtnorm", 
+           "testthat",
+           "truncreg",
+           "truncnorm",
+           "rstan",
+           "optimx",
+           "weightr", 
+           "here",
+           "stringr",
+           "RColorBrewer",
+           "phacking")
 
 lapply( toLoad,
         require,
         character.only = TRUE)
 
-# helper fns
-general.code.dir = "~/Dropbox/Personal computer/Independent studies/2021/Sensitivity analysis for p-hacking (SAPH)/Linked to OSF (SAPH)/Code (git)/Sherlock code"
+# run this only if you want to update the R environment specs
+# renv::snapshot()
+
+# set working directories
+code.dir = here("Code")
+raw.data.dir = here("Data and materials/Dataset from their repo") 
+prepped.data.dir = here("Data and materials/Prepped data") 
+results.dir = here("Results from R") 
+
+# helper fns from sim study
+general.code.dir = str_replace_all( string = here(),
+                                    pattern = "Applied example/Lodder",
+                                    replacement = "Code (git)/Sherlock code" ) 
+
 setwd(general.code.dir)
 source("helper_SAPH.R")
 source("analyze_sims_helper_SAPH.R")
 
 # get prepped data
-setwd( here("Lodder/Data and materials/Prepped data") )
+setwd(prepped.data.dir)
 dp = fread("lodder_prepped.csv")
-expect_equal( nrow(dp), 287 )  # this is the "Figure 1" analysis, not the "Appendix A" analysis 
+expect_equal( nrow(dp), 287 )  
 
 
-# for this script's own results
-results.dir = here("Lodder/Results from R")
+# below are the only 2 non-relative paths
+# write results directly to directory containing TeX manuscript in Overleaf so stats can be piped directly into text
+# this is an absolute path because it must live in Dropbox, outside the project directory, in order to sync with Overleaf
+# to reproduce results, just set this to any directory on your local machine
+# results will be written to a csv file in that location
 overleaf.dir.figs = "/Users/mmathur/Dropbox/Apps/Overleaf/P-hacking (SAPH) Overleaf/figures_SAPH/lodder"
 overleaf.dir.nums = "/Users/mmathur/Dropbox/Apps/Overleaf/P-hacking (SAPH) Overleaf/results_from_R_SAPH"
 
