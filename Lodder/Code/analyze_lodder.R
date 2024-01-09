@@ -1,4 +1,16 @@
 
+
+# SET ABSOLUTE PATHS ---------------------------------------------
+
+# below are the only 2 absolute paths in the script
+# write results directly to directory containing TeX manuscript in Overleaf so stats can be piped directly into text
+# this is an absolute path because it must live in Dropbox, outside the project directory, in order to sync with Overleaf
+# to reproduce results, just set this to any directory on your local machine
+# results will be written to a csv file in that location
+overleaf.dir.figs = "/Users/mmathur/Dropbox/Apps/Overleaf/P-hacking (SAPH) Overleaf/figures_SAPH/lodder"
+overleaf.dir.nums = "/Users/mmathur/Dropbox/Apps/Overleaf/P-hacking (SAPH) Overleaf/results_from_R_SAPH"
+
+
 # PRELIMINARIES ---------------------------------------------
 
 # This script uses renv to preserve the R environment specs (e.g., package versions.)
@@ -36,6 +48,13 @@ toLoad = c("crayon",
            "RColorBrewer",
            "phacking")
 
+# in case any packages need to be installed
+# note this will install the most recent versions of the packages; use renv::restore() instead to 
+#  install the versions we used
+# lapply( toLoad,
+#         install.packages,
+#         character.only = TRUE)
+
 lapply( toLoad,
         require,
         character.only = TRUE)
@@ -64,13 +83,6 @@ dp = fread("lodder_prepped.csv")
 expect_equal( nrow(dp), 287 )  
 
 
-# below are the only 2 non-relative paths
-# write results directly to directory containing TeX manuscript in Overleaf so stats can be piped directly into text
-# this is an absolute path because it must live in Dropbox, outside the project directory, in order to sync with Overleaf
-# to reproduce results, just set this to any directory on your local machine
-# results will be written to a csv file in that location
-overleaf.dir.figs = "/Users/mmathur/Dropbox/Apps/Overleaf/P-hacking (SAPH) Overleaf/figures_SAPH/lodder"
-overleaf.dir.nums = "/Users/mmathur/Dropbox/Apps/Overleaf/P-hacking (SAPH) Overleaf/results_from_R_SAPH"
 
 
 # MAKE DATA SUBSETS ------------------------------
